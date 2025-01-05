@@ -1,0 +1,19 @@
+// src/components/Timer/Timer.module.scss
+.timerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff5e6;
+  }
+  
+  .messageBox {
+    background-color: #7fb3d5;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  // ... rest of your styles
