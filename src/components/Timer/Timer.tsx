@@ -3,6 +3,7 @@ import styles from './Timer.module.scss';
 import {TimerState} from '../../types/index';
 import { TimerService } from '../../services/TimerService';
 
+
 interface TimerProps {
   initialMinutes?: number;
   initialSeconds?: number;
@@ -76,48 +77,62 @@ useEffect(() => {
 
 return (
 <div className={styles.timerContainer}>
-    <div className={styles.messageBox}>
-    <p>Please Select the time you want to focus? Chi</p>
-    </div>
-    
-    <div className="characters">
-    <div className="character cat-blue" />
-    <div className="character cat-white" />
-    <div className="character bunny" />
-    </div>
-
-    <div className="timer-display">
-    <button 
-        className="arrow-button up" 
-        onClick={incrementTime}
+    <div className={styles.timerDisplay}>
+        <div className={styles.centerBox}>
+            <button 
+            className={styles.arrowButton}
+            onClick={incrementTime}
+            disabled={timerState.isRunning}
+            aria-label="Increase time"
+            >
+            ▲
+        </button>
+        <div className={styles.time}>
+            {String(timerState.minutes).padStart(2)}
+        </div>    
+        <button 
+        className={styles.arrowButton}
+        onClick={decrementTime}
         disabled={timerState.isRunning}
-        aria-label="Increase time"
-    >
-        ▲
-    </button>
-    
-    <div className="time">
-        {String(timerState.minutes).padStart(2, '0')}:
-        {String(timerState.seconds).padStart(2, '0')}
-    </div>
-    
-    <button 
-        className="arrow-button down" 
+        >
+            ▼
+        </button>
+        </div>
+        <div className={styles.time}>
+            :
+        </div>
+        <div className={styles.centerBox}>
+            <button 
+            className={styles.arrowButton}
+            onClick={incrementTime}
+            disabled={timerState.isRunning}
+            aria-label="Increase time"
+            >
+            ▲
+        </button>
+        <div className={styles.time}>
+            {String(timerState.seconds).padStart(2, '0')}
+        </div>    
+        <button 
+       className={styles.arrowButton}
         onClick={decrementTime}
         disabled={timerState.isRunning}
         aria-label="Decrease time"
-    >
-        ▼
-    </button>
+        >
+            ▼
+        </button>
+        </div>
+   
     </div>
 
     <button 
-    className="start-button" 
-    onClick={startTimer}
-    disabled={timerState.isRunning}
+        className={styles.startButton}
+        onClick={startTimer}
+        disabled={timerState.isRunning}
     >
-    Start
+        Start
     </button>
+
 </div>
 );
 };

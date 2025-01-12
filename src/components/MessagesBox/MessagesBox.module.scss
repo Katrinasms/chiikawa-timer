@@ -1,0 +1,21 @@
+.messageBox {
+    background-color: #7fb3d5;
+    padding: 15px;
+    width: 90%;
+    text-align: center;
+    border: 4px solid  #462725;
+    border-radius: 10px;
+   
+}
+
+.messageBoxContainer {
+    max-width: 80%;
+}
+
+.messageBoxRow {
+    display:flex;
+    justify-content: center;
+    // align-items: flex-start;
+    margin-top: 10px;
+    max-width: 100%;
+}

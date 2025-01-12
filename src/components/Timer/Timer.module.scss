@@ -3,17 +3,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 300px;
+    // max-width: 300px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff5e6;
   }
   
-  .messageBox {
-    background-color: #7fb3d5;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+  .startButton{
+    margin-top: 10px;
+    background-color: white;
+    border: 4px solid  #462725;
+    padding-left: 30px;
+    padding-right: 30px;
   }
-  
-  // ... rest of your styles
+
+.timerDisplay{
+  background-color: #FDC7CE;
+  width: 85%;
+  padding: 10px 30px;
+  border: 4px solid  #462725;
+  border-radius: 5px;
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
+.time{
+  font-size: 80px;
+  text-align: center;
+}
+
+.centerBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrowButton{
+  background-color: #FFF1CB;
+}
