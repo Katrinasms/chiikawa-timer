@@ -4,22 +4,25 @@ import {TimerState} from '../../types/index';
 import { TimerService } from '../../services/TimerService';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Clock from '../Clock/Clock';
 
 
 interface TimerProps {
+  initialHours?: number;
   initialMinutes?: number;
   initialSeconds?: number;
 }
 
 const Timer: React.FC<TimerProps> = ({
+  initialHours = 2,
   initialMinutes = 2,
   initialSeconds = 30
 }) => {
 
 const [timerState, setTimerState] = useState<TimerState>({
-minutes: initialMinutes,
-seconds: initialSeconds,
-isRunning: false
+    minutes: initialMinutes,
+    seconds: initialSeconds,
+    isRunning: false
 });
 
 const timerServiceRef = useRef<TimerService | null>(null);
@@ -63,11 +66,12 @@ const startTimer = (): void => {
         }
         );
         setTimerState(prev => ({
-        ...prev,
-        isRunning: true
+            ...prev,
+            isRunning: true
         }));
 
 };
+
 
 useEffect(() => {
     return () => {
@@ -78,64 +82,55 @@ useEffect(() => {
   }, []);
 
 return (
-<div className={styles.timerContainer}>
+<div className={`${styles.timerContainer} ${timerState.isRunning ? styles.shrunk : ''}`}>
     <div className={styles.timerDisplay}>
         <div className={styles.centerBox}>
-         
-        {!timerState.isRunning && (
                <button 
-               className={styles.arrowButton}
+               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
                onClick={incrementTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
                >
                <KeyboardArrowUpIcon className={styles.arrowFont} />
            </button>
-            )}
+
         <div className={styles.time}>
             {String(timerState.minutes).padStart(2)}
         </div>    
-        
-        {!timerState.isRunning && (
                <button 
         
-               className={styles.arrowButton}
+               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
                onClick={decrementTime}
                disabled={timerState.isRunning}
                >
                    <KeyboardArrowDownIcon className={styles.arrowFont} />
                </button>
-        )}
         </div>
         <div className={styles.time}>
             :
         </div>
         <div className={styles.centerBox}>
-        {!timerState.isRunning && (
-               <button 
-               className={styles.arrowButton}
+        <button 
+               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
                onClick={incrementTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
                >
                <KeyboardArrowUpIcon className={styles.arrowFont} />
            </button>
-            )}
         <div className={styles.time}>
             {String(timerState.seconds).padStart(2, '0')}
         </div>    
-        {!timerState.isRunning && (
                <button 
-        
-               className={styles.arrowButton}
+               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
                onClick={decrementTime}
                disabled={timerState.isRunning}
                >
                    <KeyboardArrowDownIcon className={styles.arrowFont} />
                </button>
-        )}
         </div>
     </div>
+        <Clock />
     <button 
         className={styles.startButton}
         onClick={startTimer}

@@ -3,11 +3,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // max-width: 300px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff5e6;
+    // transition: max-height 0.3s ease-in-out;
+    // overflow: hidden;
+    // max-height: 500px;
   }
+
+  // .timerContainer.shrunk {
+  //   max-height: 200px; /* Adjust this value based on your layout */
+  // }
   
   .startButton{
     margin-top: 10px;
@@ -45,11 +51,34 @@
   background-color: #FDC7CE;
   font-size: large;
   width: 80px;
+  transition: opacity 1s ease-in-out,  max-height 3s ease-in-out; /* Added transition */
+  max-height: 100px; /* Set initial height */
+  opacity: 1; /* Ensure the button is visible */
+  overflow: hidden; /* Hide overflowing content */
   
 }
+
 
 .arrowFont{
   font-size: large;
   transform: scale(4);
   
+}
+
+.cornerImage{
+  position: relative;
+  width: 70px;
+  height: 70px;
+  align-self: flex-end;
+  transform: translate(0, -50px);
+}
+
+.timerImage{
+  width: 70px;
+  height: 70px;
+}
+
+.hidden {
+  max-height: 0 !important; /* Collapse the button */
+  opacity: 0; 
 }
