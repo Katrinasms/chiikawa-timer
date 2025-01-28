@@ -15,12 +15,47 @@
   //   max-height: 200px; /* Adjust this value based on your layout */
   // }
   
-  .startButton{
+  .startButton,
+  .pauseButton,
+  .resumeButton,
+  .resetButton{
     margin-top: 10px;
     background-color: white;
     border: 4px solid  #462725;
     padding-left: 30px;
     padding-right: 30px;
+  }
+
+  .controlButtons {
+    display: flex; /* Use Flexbox for layout */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 20px; /* Add a gap of 20px between buttons (adjust as needed) */
+    margin-top: 20px; /* Add some space above the buttons */
+  }
+
+  .startButton {
+    background-color: #FDC7CE;
+  }
+
+  .startButton:hover  {
+    background-color: #fdc7ce70;
+  }
+
+
+  .pauseButton {
+    background-color: #ffc107; /* Yellow color for pause button */
+  }
+  
+  .pauseButton:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+  }
+  
+  .resetButton {
+    background-color: #dc3545; /* Red color for reset button */
+  }
+  
+  .resetButton:hover {
+    background-color: #c82333; /* Darker red on hover */
   }
 
 .timerDisplay{

@@ -25,6 +25,9 @@ const [timerState, setTimerState] = useState<TimerState>({
     isRunning: false
 });
 
+const [isPaused, setIsPaused] = useState<boolean>(false);
+const [isEditable, setIsEditable] = useState<boolean>(true); 
+
 const timerServiceRef = useRef<TimerService | null>(null);
 
 const incrementHourTime = (): void => {    
@@ -72,6 +75,8 @@ const startTimer = (): void => {
             ...prev,
             isRunning: false
             }));
+            setIsEditable(true); // Allow editing after timer completes
+            setIsPaused(false);
             // Handle timer completion
         }
         );
@@ -79,7 +84,46 @@ const startTimer = (): void => {
             ...prev,
             isRunning: true
         }));
+        setIsEditable(false); // Disable editing when timer starts
+        setIsPaused(false);
 
+};
+
+const pauseTimer = (): void => {
+  if (timerServiceRef.current) {
+    timerServiceRef.current.pause();
+    setTimerState(prev => ({
+      ...prev,
+      isRunning: false
+    }));
+    setIsPaused(true);
+  }
+};
+
+const resumeTimer = (): void => {
+  if (timerServiceRef.current) {
+    timerServiceRef.current.resume();
+    setTimerState(prev => ({
+      ...prev,
+      isRunning: true
+    }));
+    setIsPaused(false);
+  }
+};
+
+// Reset timer
+const resetTimer = (): void => {
+  if (timerServiceRef.current) {
+    timerServiceRef.current.reset(initialHours, initialMinutes,initialSeconds );
+    setTimerState({
+      hours: initialHours,
+      minutes: initialMinutes,
+      seconds: initialSeconds,
+      isRunning: false
+    });
+    setIsEditable(true); // Allow editing after reset
+    setIsPaused(false); 
+  }
 };
 
 
@@ -96,7 +140,7 @@ return (
     <div className={styles.timerDisplay}>
         <div className={styles.centerBox}>
                <button 
-               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
                onClick={incrementHourTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
@@ -109,7 +153,7 @@ return (
         </div>    
                <button 
         
-               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
                onClick={decrementHourTime}
                disabled={timerState.isRunning}
                >
@@ -121,7 +165,7 @@ return (
         </div>
         <div className={styles.centerBox}>
         <button 
-               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
                onClick={incrementMinuteTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
@@ -132,7 +176,7 @@ return (
             {String(timerState.minutes).padStart(2, '0')}
         </div>    
                <button 
-               className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
                onClick={decrementMinuteTime}
                disabled={timerState.isRunning}
                >
@@ -141,15 +185,69 @@ return (
         </div>
     </div>
         <Clock seconds={timerState.seconds}/>
-        <h1>Timer: {timerState.hours}:{timerState.minutes}:{timerState.seconds}</h1>
-    <button 
-        className={styles.startButton}
-        onClick={startTimer}
-        disabled={timerState.isRunning}
-    >
-        Start
-    </button>
-
+       {/* {!timerState.isRunning ? (
+        <button
+          className={styles.startButton}
+          onClick={startTimer}
+          disabled={timerState.isRunning}
+        >
+          Start
+        </button>
+      ) : (
+        <div className={styles.controlButtons}>
+          <button
+            className={styles.pauseButton}
+            onClick={pauseTimer}
+          >
+            Pause
+          </button>
+          <button
+            className={styles.resetButton}
+            onClick={resetTimer}
+          >
+            Reset
+          </button>
+        </div>
+      )} */}
+       {timerState.isRunning ? (
+        <div className={styles.controlButtons}>
+          <button
+            className={styles.pauseButton}
+            onClick={pauseTimer}
+          >
+            Pause
+          </button>
+          <button
+            className={styles.resetButton}
+            onClick={resetTimer}
+          >
+            Reset
+          </button>
+        </div>
+      ) : isPaused ? (
+        <div className={styles.controlButtons}>
+          <button
+            className={styles.resumeButton}
+            onClick={resumeTimer}
+          >
+            Resume
+          </button>
+          <button
+            className={styles.resetButton}
+            onClick={resetTimer}
+          >
+            Reset
+          </button>
+        </div>
+      ) : (
+        <button
+          className={styles.startButton}
+          onClick={startTimer}
+          disabled={!isEditable}
+        >
+          Start
+        </button>
+      )}
 </div>
 );
 };

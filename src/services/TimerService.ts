@@ -25,6 +25,12 @@ export class TimerService {
         this.timerId = null;
       }
     }
+
+    public resume(): void {
+      if (!this.timerId) {
+        this.startCountdown();
+      }
+    }
   
     public reset(hours:number, minutes: number, seconds: number): void {
       this.pause();
