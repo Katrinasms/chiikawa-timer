@@ -6,16 +6,13 @@ interface Styles {
     spinner: CSSProperties;
 }
 
-const Clock: React.FC = () => {
-    const [rotation, setRotation] = useState<number>(0);
+interface ClockProps {
+    seconds: number; // Accept seconds as a prop
+}
 
-    useEffect(() => {
-        const intervalId = window.setInterval(() => {
-            setRotation((prev: number) => prev - 6);
-        }, 1000);
 
-        return () => window.clearInterval(intervalId);
-    }, []);
+const Clock: React.FC<ClockProps> = ({ seconds }) => {
+    const rotation = seconds * 6;
 
     const styles_animated: Styles = {
         container: {

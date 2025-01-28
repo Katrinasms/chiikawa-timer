@@ -6,7 +6,6 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Clock from '../Clock/Clock';
 
-
 interface TimerProps {
   initialHours?: number;
   initialMinutes?: number;
@@ -15,11 +14,12 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({
   initialHours = 2,
-  initialMinutes = 2,
-  initialSeconds = 30
+  initialMinutes = 30,
+  initialSeconds = 0
 }) => {
 
 const [timerState, setTimerState] = useState<TimerState>({
+    hours: initialHours,
     minutes: initialMinutes,
     seconds: initialSeconds,
     isRunning: false
@@ -27,32 +27,42 @@ const [timerState, setTimerState] = useState<TimerState>({
 
 const timerServiceRef = useRef<TimerService | null>(null);
 
-const incrementTime = (): void => {
-if (timerState.minutes === 12 && timerState.seconds === 0) return;
+const incrementHourTime = (): void => {    
+    setTimerState(prev => ({
+        ...prev,
+        hours: prev.hours === 8? 0 :prev.hours  + 1,
+        }));
+    };
 
-setTimerState(prev => ({
-    ...prev,
-    minutes: prev.seconds === 30 ? prev.minutes + 1 : prev.minutes,
-    seconds: prev.seconds === 30 ? 0 : 30
-}));
+const incrementMinuteTime = (): void => {
+    setTimerState(prev => ({
+        ...prev,
+        minutes: prev.minutes === 45? 0 : prev.minutes + 15,
+        }));
 };
+        
+const decrementHourTime = (): void => {    
+    setTimerState(prev => ({
+        ...prev,
+        hours: prev.hours === 0? 8 :prev.hours  - 1,
+        }));
+    };
 
-const decrementTime = (): void => {
-if (timerState.minutes === 0 && timerState.seconds === 30) return;
-
-setTimerState(prev => ({
-    ...prev,
-    minutes: prev.seconds === 0 ? prev.minutes - 1 : prev.minutes,
-    seconds: prev.seconds === 0 ? 30 : 0
-}));
+const decrementMinuteTime = (): void => {
+    setTimerState(prev => ({
+        ...prev,
+        minutes: prev.minutes === 0? 45 : prev.minutes - 15,
+        }));
 };
+       
 
 const startTimer = (): void => {
-    timerServiceRef.current = new TimerService(timerState.minutes, timerState.seconds);
+    timerServiceRef.current = new TimerService(timerState.hours, timerState.minutes,timerState.seconds);
         timerServiceRef.current.start(
-        (minutes, seconds) => {
+        (hours, minutes,seconds) => {
             setTimerState(prev => ({
             ...prev,
+            hours,
             minutes,
             seconds
             }));
@@ -87,7 +97,7 @@ return (
         <div className={styles.centerBox}>
                <button 
                className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
-               onClick={incrementTime}
+               onClick={incrementHourTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
                >
@@ -95,12 +105,12 @@ return (
            </button>
 
         <div className={styles.time}>
-            {String(timerState.minutes).padStart(2)}
+            {String(timerState.hours).padStart(2)}
         </div>    
                <button 
         
                className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
-               onClick={decrementTime}
+               onClick={decrementHourTime}
                disabled={timerState.isRunning}
                >
                    <KeyboardArrowDownIcon className={styles.arrowFont} />
@@ -112,25 +122,26 @@ return (
         <div className={styles.centerBox}>
         <button 
                className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
-               onClick={incrementTime}
+               onClick={incrementMinuteTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
                >
                <KeyboardArrowUpIcon className={styles.arrowFont} />
            </button>
         <div className={styles.time}>
-            {String(timerState.seconds).padStart(2, '0')}
+            {String(timerState.minutes).padStart(2, '0')}
         </div>    
                <button 
                className={`${styles.arrowButton} ${timerState.isRunning ? styles.hidden : ''}`}
-               onClick={decrementTime}
+               onClick={decrementMinuteTime}
                disabled={timerState.isRunning}
                >
                    <KeyboardArrowDownIcon className={styles.arrowFont} />
                </button>
         </div>
     </div>
-        <Clock />
+        <Clock seconds={timerState.seconds}/>
+        <h1>Timer: {timerState.hours}:{timerState.minutes}:{timerState.seconds}</h1>
     <button 
         className={styles.startButton}
         onClick={startTimer}
