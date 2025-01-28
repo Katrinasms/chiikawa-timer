@@ -43,20 +43,30 @@
 
 
   .pauseButton {
-    background-color: #ffc107; /* Yellow color for pause button */
+    background-color: #FDC7CE; /* Yellow color for pause button */
   }
   
   .pauseButton:hover {
-    background-color: #e0a800; /* Darker yellow on hover */
+    background-color: #fdc7ce70; /* Darker yellow on hover */
   }
   
   .resetButton {
-    background-color: #dc3545; /* Red color for reset button */
+    background-color: #fff5e6; /* Red color for reset button */
   }
   
   .resetButton:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #73614562; /* Darker red on hover */
   }
+
+  .resumeButton {
+    background-color: #7fb3d5; /* Red color for reset button */
+  }
+  
+  .resumeButton:hover {
+    background-color: #7fb3d557; /* Darker red on hover */
+  }
+
+  // 7fb3d5
 
 .timerDisplay{
   background-color: #FDC7CE;
@@ -86,12 +96,28 @@
   background-color: #FDC7CE;
   font-size: large;
   width: 80px;
-  transition: opacity 1s ease-in-out,  max-height 3s ease-in-out; /* Added transition */
+  // transition: opacity 1s ease-in-out,  max-height 3s ease-in-out; /* Added transition */
   max-height: 100px; /* Set initial height */
   opacity: 1; /* Ensure the button is visible */
   overflow: hidden; /* Hide overflowing content */
   
 }
+
+.arrowButton.entering {
+  transition:
+  opacity 1s ease-in-out,
+  max-height 3s ease-in-out;
+}
+
+.arrowButton.exiting {
+  transition:
+  max-height 2s ease-in-out,
+  opacity 3s ease-in-out;
+  
+}
+
+
+
 
 
 .arrowFont{

@@ -12,9 +12,55 @@ interface TimerProps {
   initialSeconds?: number;
 }
 
+const playSound = (audioPath: string, volume = 0.5) => {
+  const audio = new Audio(audioPath);
+  audio.volume = volume;
+  audio.play().catch(error => {
+    console.error('Error playing sound:', error);
+  });
+};
+
+const PopUpAnimate: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+      // Hide the overlay after 8 seconds
+      const timer = setTimeout(() => {
+          setIsVisible(false);
+      }, 5000);
+
+      // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
+  }, []);
+
+  if (!isVisible) return null; // Don't render anything if the overlay is hidden
+
+  return (
+      <div
+          style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Black with 0.5 opacity
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1000, // Ensure it's on top
+          }}
+      >
+          <img src="./src/assets/chiikawa-usagi-animated.gif" alt="GIF" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+      </div>
+  );
+};
+
+
+
+
 const Timer: React.FC<TimerProps> = ({
-  initialHours = 2,
-  initialMinutes = 30,
+  initialHours = 0,
+  initialMinutes = 15,
   initialSeconds = 0
 }) => {
 
@@ -27,6 +73,7 @@ const [timerState, setTimerState] = useState<TimerState>({
 
 const [isPaused, setIsPaused] = useState<boolean>(false);
 const [isEditable, setIsEditable] = useState<boolean>(true); 
+const [isComplete, setIsComplete] = useState<boolean>(false); 
 
 const timerServiceRef = useRef<TimerService | null>(null);
 
@@ -57,6 +104,9 @@ const decrementMinuteTime = (): void => {
         minutes: prev.minutes === 0? 45 : prev.minutes - 15,
         }));
 };
+
+
+
        
 
 const startTimer = (): void => {
@@ -75,9 +125,12 @@ const startTimer = (): void => {
             ...prev,
             isRunning: false
             }));
-            setIsEditable(true); // Allow editing after timer completes
+            
+            setIsEditable(true); 
             setIsPaused(false);
-            // Handle timer completion
+            setIsComplete(true);
+            playSound('./src/assets/music/usagi_happy_sounds.mp3')
+
         }
         );
         setTimerState(prev => ({
@@ -86,6 +139,7 @@ const startTimer = (): void => {
         }));
         setIsEditable(false); // Disable editing when timer starts
         setIsPaused(false);
+        setIsComplete(false);
 
 };
 
@@ -128,6 +182,7 @@ const resetTimer = (): void => {
 
 
 useEffect(() => {
+  
     return () => {
       if (timerServiceRef.current) {
         timerServiceRef.current.pause();
@@ -140,7 +195,7 @@ return (
     <div className={styles.timerDisplay}>
         <div className={styles.centerBox}>
                <button 
-               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''} ${!isEditable ? styles.entering : styles.exiting}`}
                onClick={incrementHourTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
@@ -153,7 +208,7 @@ return (
         </div>    
                <button 
         
-               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''} ${!isEditable ? styles.entering : styles.exiting}`}
                onClick={decrementHourTime}
                disabled={timerState.isRunning}
                >
@@ -165,7 +220,7 @@ return (
         </div>
         <div className={styles.centerBox}>
         <button 
-               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''} ${!isEditable ? styles.entering : styles.exiting}`}
                onClick={incrementMinuteTime}
                disabled={timerState.isRunning}
                aria-label="Increase time"
@@ -176,7 +231,7 @@ return (
             {String(timerState.minutes).padStart(2, '0')}
         </div>    
                <button 
-               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''}`}
+               className={`${styles.arrowButton} ${!isEditable ? styles.hidden : ''} ${!isEditable ? styles.entering : styles.exiting}`}
                onClick={decrementMinuteTime}
                disabled={timerState.isRunning}
                >
@@ -185,30 +240,6 @@ return (
         </div>
     </div>
         <Clock seconds={timerState.seconds}/>
-       {/* {!timerState.isRunning ? (
-        <button
-          className={styles.startButton}
-          onClick={startTimer}
-          disabled={timerState.isRunning}
-        >
-          Start
-        </button>
-      ) : (
-        <div className={styles.controlButtons}>
-          <button
-            className={styles.pauseButton}
-            onClick={pauseTimer}
-          >
-            Pause
-          </button>
-          <button
-            className={styles.resetButton}
-            onClick={resetTimer}
-          >
-            Reset
-          </button>
-        </div>
-      )} */}
        {timerState.isRunning ? (
         <div className={styles.controlButtons}>
           <button
@@ -248,6 +279,10 @@ return (
           Start
         </button>
       )}
+         {
+           (isComplete)
+           &&  <PopUpAnimate />
+         }
 </div>
 );
 };
