@@ -1,4 +1,4 @@
-import React, { useEffect, useState, CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import styles from './Clock.module.scss';
 
 interface Styles {
@@ -30,8 +30,8 @@ const Clock: React.FC<ClockProps> = ({ seconds }) => {
     return(
     <>
         <div className={styles.cornerImage} >
-            <img src={('./src/assets/Timer.png')} className={styles.timerImage}/>
-            <img src={('./src/assets/clock.png')} className={styles.smallImage} style={styles_animated.spinner}/>
+            <img src={('/assets/Timer.png')} className={styles.timerImage}/>
+            <img src={('/assets/clock.png')} className={styles.smallImage} style={styles_animated.spinner}/>
             <p style={{position:'absolute', bottom:-10, right:0, fontSize:12, padding: 0, margin:0, alignSelf:'center', alignItems:'center'}}>{ seconds }</p>
         </div>
 

@@ -20,7 +20,7 @@ function Characters() {
             height: 'auto',
             objectFit: 'cover',
           }}
-          src="./src/assets/hachiwa.webp"
+          src="/assets/hachiwa.webp"
           alt="hachiwa"
         />
         
@@ -31,7 +31,7 @@ function Characters() {
             height: 'auto',
             objectFit: 'cover',
           }}
-          src="./src/assets/AdorableCutieChiikawa.webp"
+          src="/assets/AdorableCutieChiikawa.webp"
           alt="Chiikawa"
         />
         
@@ -42,7 +42,7 @@ function Characters() {
             height: 'auto',
             objectFit: 'cover',
           }}
-          src="./src/assets/YahaUsagi.webp"
+          src="/assets/YahaUsagi.webp"
           alt="YahaUsagi"
         />
       </Box>

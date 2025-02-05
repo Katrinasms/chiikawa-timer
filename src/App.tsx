@@ -6,10 +6,10 @@ import MessagesBox from './components/MessagesBox/MessagesBox'
 function App() {
   return (
     <>
+      <p style={{textAlign:'center', color:'red', fontWeight:'bold'}}>STILL UNDER CONSTRUCTION</p>
       <MessagesBox />
       <Characters />
-      <Timer />
-     
+      <Timer /> 
     </>
   )
 }

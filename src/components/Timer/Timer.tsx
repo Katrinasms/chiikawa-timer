@@ -50,7 +50,7 @@ const PopUpAnimate: React.FC = () => {
               zIndex: 1000, // Ensure it's on top
           }}
       >
-          <img src="./src/assets/chiikawa-usagi-animated.gif" alt="GIF" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+          <img src="/assets/chiikawa-usagi-animated.gif" alt="GIF" style={{ maxWidth: "100%", maxHeight: "100%" }} />
       </div>
   );
 };
@@ -60,8 +60,8 @@ const PopUpAnimate: React.FC = () => {
 
 const Timer: React.FC<TimerProps> = ({
   initialHours = 0,
-  initialMinutes = 15,
-  initialSeconds = 0
+  initialMinutes = 0,
+  initialSeconds = 10
 }) => {
 
 const [timerState, setTimerState] = useState<TimerState>({
@@ -129,7 +129,7 @@ const startTimer = (): void => {
             setIsEditable(true); 
             setIsPaused(false);
             setIsComplete(true);
-            playSound('./src/assets/music/usagi_happy_sounds.mp3')
+            playSound('/assets/music/usagi_happy_sounds.mp3')
 
         }
         );
