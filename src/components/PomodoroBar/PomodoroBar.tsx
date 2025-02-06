@@ -91,7 +91,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
           left: '0',
           height: '10px',
           width: `${100 - imagePosition}%`,
-          backgroundColor: 'rgba(204, 131, 195, 0.66)', // Gray with 50% opacity
+          backgroundColor: '#FFF1CB9A', // Gray with 50% opacity rgba(253, 199, 206, 0.5)
           borderRadius: '5px',
           pointerEvents: 'none', // Allow clicks to pass through
           transition: 'width 1s linear',
