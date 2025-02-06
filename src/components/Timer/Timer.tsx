@@ -5,6 +5,7 @@ import { TimerService } from '../../services/TimerService';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Clock from '../Clock/Clock';
+import PomodoroBar from '../PomodoroBar/PomodoroBar';
 
 interface TimerProps {
   initialHours?: number;
@@ -55,120 +56,117 @@ const PopUpAnimate: React.FC = () => {
   );
 };
 
-
-
-
 const Timer: React.FC<TimerProps> = ({
   initialHours = 0,
   initialMinutes = 0,
   initialSeconds = 10
 }) => {
 
-const [timerState, setTimerState] = useState<TimerState>({
-    hours: initialHours,
-    minutes: initialMinutes,
-    seconds: initialSeconds,
-    isRunning: false
-});
-
-const [isPaused, setIsPaused] = useState<boolean>(false);
-const [isEditable, setIsEditable] = useState<boolean>(true); 
-const [isComplete, setIsComplete] = useState<boolean>(false); 
-
-const timerServiceRef = useRef<TimerService | null>(null);
-
-const incrementHourTime = (): void => {    
-    setTimerState(prev => ({
-        ...prev,
-        hours: prev.hours === 8? 0 :prev.hours  + 1,
-        }));
-    };
-
-const incrementMinuteTime = (): void => {
-    setTimerState(prev => ({
-        ...prev,
-        minutes: prev.minutes === 45? 0 : prev.minutes + 15,
-        }));
-};
-        
-const decrementHourTime = (): void => {    
-    setTimerState(prev => ({
-        ...prev,
-        hours: prev.hours === 0? 8 :prev.hours  - 1,
-        }));
-    };
-
-const decrementMinuteTime = (): void => {
-    setTimerState(prev => ({
-        ...prev,
-        minutes: prev.minutes === 0? 45 : prev.minutes - 15,
-        }));
-};
-
-
-
-       
-
-const startTimer = (): void => {
-    timerServiceRef.current = new TimerService(timerState.hours, timerState.minutes,timerState.seconds);
-        timerServiceRef.current.start(
-        (hours, minutes,seconds) => {
-            setTimerState(prev => ({
-            ...prev,
-            hours,
-            minutes,
-            seconds
-            }));
-        },
-        () => {
-            setTimerState(prev => ({
-            ...prev,
-            isRunning: false
-            }));
-            
-            setIsEditable(true); 
-            setIsPaused(false);
-            setIsComplete(true);
-            playSound('/assets/music/usagi_happy_sounds.mp3')
-
-        }
-        );
-        setTimerState(prev => ({
-            ...prev,
-            isRunning: true
-        }));
-        setIsEditable(false); // Disable editing when timer starts
-        setIsPaused(false);
-        setIsComplete(false);
-
-};
-
-const pauseTimer = (): void => {
-  if (timerServiceRef.current) {
-    timerServiceRef.current.pause();
-    setTimerState(prev => ({
-      ...prev,
+  const [timerState, setTimerState] = useState<TimerState>({
+      hours: initialHours,
+      minutes: initialMinutes,
+      seconds: initialSeconds,
       isRunning: false
-    }));
-    setIsPaused(true);
-  }
-};
+  });
 
-const resumeTimer = (): void => {
-  if (timerServiceRef.current) {
-    timerServiceRef.current.resume();
-    setTimerState(prev => ({
-      ...prev,
-      isRunning: true
-    }));
-    setIsPaused(false);
-  }
-};
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [isEditable, setIsEditable] = useState<boolean>(true); 
+  const [isComplete, setIsComplete] = useState<boolean>(false); 
 
-// Reset timer
-const resetTimer = (): void => {
-  if (timerServiceRef.current) {
-    timerServiceRef.current.reset(initialHours, initialMinutes,initialSeconds );
+  const timerServiceRef = useRef<TimerService | null>(null);
+
+  const incrementHourTime = (): void => {    
+      setTimerState(prev => ({
+          ...prev,
+          hours: prev.hours === 8? 0 :prev.hours  + 1,
+          }));
+      };
+
+  const incrementMinuteTime = (): void => {
+      setTimerState(prev => ({
+          ...prev,
+          minutes: prev.minutes === 50? 0 : prev.minutes + 10,
+          hours: prev.minutes === 50 && prev.hours < 8 ? prev.hours + 1 : prev.hours
+          }));
+  };
+          
+  const decrementHourTime = (): void => {    
+      setTimerState(prev => ({
+          ...prev,
+          hours: prev.hours === 0? 8 :prev.hours  - 1,
+          }));
+      };
+
+  const decrementMinuteTime = (): void => {
+      setTimerState(prev => ({
+          ...prev,
+          minutes: prev.minutes === 0? 50 : prev.minutes - 10,
+          hours: prev.minutes === 0 && prev.hours > 0 ? prev.hours - 1 : prev.hours
+          }));
+  };
+
+  const startTimer = (): void => {
+      timerServiceRef.current = new TimerService(timerState.hours, timerState.minutes,timerState.seconds);
+          timerServiceRef.current.start(
+          (hours, minutes,seconds) => {
+              setTimerState(prev => ({
+              ...prev,
+              hours,
+              minutes,
+              seconds
+              }));
+          },
+          () => {
+              setTimerState(prev => ({
+              ...prev,
+              isRunning: false
+              }));
+              
+              setIsEditable(true); 
+              setIsPaused(false);
+              setIsComplete(true);
+              playSound('/assets/music/usagi_happy_sounds.mp3')
+
+          }
+          );
+          setTimerState(prev => ({
+              ...prev,
+              isRunning: true
+          }));
+          setIsEditable(false); // Disable editing when timer starts
+          setIsPaused(false);
+          setIsComplete(false);
+
+  };
+
+  const pauseTimer = (): void => {
+    if (timerServiceRef.current) {
+      timerServiceRef.current.pause();
+      setTimerState(prev => ({
+        ...prev,
+        isRunning: false
+      }));
+      setIsPaused(true);
+    }
+  };
+
+  const resumeTimer = (): void => {
+    if (timerServiceRef.current) {
+      timerServiceRef.current.resume();
+      setTimerState(prev => ({
+        ...prev,
+        isRunning: true
+      }));
+      setIsPaused(false);
+    }
+  };
+
+  // Reset timer
+  const resetTimer = (): void => {
+    if (timerServiceRef.current) {
+      timerServiceRef.current.reset(initialHours, initialMinutes,initialSeconds );
+      
+    }
     setTimerState({
       hours: initialHours,
       minutes: initialMinutes,
@@ -177,18 +175,24 @@ const resetTimer = (): void => {
     });
     setIsEditable(true); // Allow editing after reset
     setIsPaused(false); 
-  }
-};
+  };
 
+  useEffect(() => {
+    if (isEditable && timerState.hours === 0 && timerState.minutes === 0 && timerState.seconds === 0) {
+      resetTimer();
+    }
+    console.log('Timer state updated:', timerState);
+    console.log('IsEditable:', isEditable);
+  }, [isEditable, timerState.hours, timerState.minutes, timerState.seconds]);
 
 useEffect(() => {
-  
     return () => {
       if (timerServiceRef.current) {
         timerServiceRef.current.pause();
       }
     };
   }, []);
+
 
 return (
 <div className={`${styles.timerContainer} ${timerState.isRunning ? styles.shrunk : ''}`}>
@@ -283,6 +287,13 @@ return (
            (isComplete)
            &&  <PopUpAnimate />
          }
+      <PomodoroBar  
+          hours={timerState.hours}
+          minutes={timerState.minutes}
+          seconds={timerState.seconds}
+          isRunning={timerState.isRunning}
+          isEditable={isEditable}
+      />
 </div>
 );
 };
