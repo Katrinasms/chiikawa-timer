@@ -7,18 +7,21 @@ interface PomodoroBarProps extends TimerState {
 
 type IntervalChangeScenario = 'startWork' | 'startRest' | 'startBreak';
 
-const intervalChangeConfig: Record<IntervalChangeScenario, { gifSrc: string; soundSrc: string }> = {
+const intervalChangeConfig: Record<IntervalChangeScenario, { gifSrc: string; soundSrc: string, videoSrc: string }> = {
   startWork: {
     gifSrc: '/assets/gif/group-jumping.webp',
     soundSrc: '/assets/music/start_work_chi.mp3',
+    videoSrc: '/assets/video/chiikawa_op.mp4',
   },
   startRest: {
     gifSrc: '/assets/gif/group-sukiyaki.gif',
     soundSrc: '/assets/music/usagi_happy_sounds.mp3',
+    videoSrc: '/assets/video/sukiyaki.mp4',
   },
   startBreak: {
     gifSrc: '/assets/start-rest.gif',
     soundSrc: '/assets/sounds/start-rest.mp3',
+    videoSrc: '/assets/video/usagi_pajama.mp4',
   },
 
 };
@@ -81,7 +84,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [showPopup, setShowPopup] = useState(false);
     const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(0);
 
-    const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startWork');
+    const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
 
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
@@ -280,6 +283,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     return (
       <>
        {showPopup && <IntervalChangePopup scenario={currentScenario} />}
+       {/* <IntervalChangePopup scenario={currentScenario} /> */}
         <div style={styles.barContainer}>
           {/* Render the bars */}
           <div style={styles.barsWrapper}>
