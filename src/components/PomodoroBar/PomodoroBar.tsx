@@ -98,7 +98,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [initialTimeinSecond, setInitialTimeinSecond] = useState(totalTimeInSeconds);
     const [imagePosition, setImagePosition] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(999);
+    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(0);
 
     const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
 
@@ -210,7 +210,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
 
     useEffect(() => {
       if (isEditable){
-        setPrevIntervalIndex(999);
+        setPrevIntervalIndex(0);
         if ( totalTimeInSeconds === 0) {
           setCurrentScenario('startBreak');
           setShowPopup(true);
