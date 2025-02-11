@@ -28,7 +28,7 @@ const Timer: React.FC<TimerProps> = ({
 
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(true); 
-  const [isComplete, setIsComplete] = useState<boolean>(false); 
+  // const [isComplete, setIsComplete] = useState<boolean>(false); 
 
   const timerServiceRef = useRef<TimerService | null>(null);
 
@@ -81,7 +81,7 @@ const Timer: React.FC<TimerProps> = ({
               
               setIsEditable(true); 
               setIsPaused(false);
-              setIsComplete(true);
+              // setIsComplete(true);
               // playSound('/assets/music/start_work_chi.mp3')
 
           }
@@ -92,7 +92,7 @@ const Timer: React.FC<TimerProps> = ({
           }));
           setIsEditable(false); // Disable editing when timer starts
           setIsPaused(false);
-          setIsComplete(false);
+          // setIsComplete(false);
 
   };
 

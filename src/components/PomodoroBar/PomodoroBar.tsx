@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import {TimerState} from '../../types/index';
-import './PomodoroBar.module.scss';
+// import './PomodoroBar.module.scss';
 
 
 interface PomodoroBarProps extends TimerState {
@@ -98,7 +98,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [initialTimeinSecond, setInitialTimeinSecond] = useState(totalTimeInSeconds);
     const [imagePosition, setImagePosition] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(0);
+    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(999);
 
     const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
 
@@ -216,6 +216,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
         const popupTimeout = setTimeout(() => {
           setShowPopup(false);
           setCurrentScenario('startWork'); // Reset scenario after pop-up hides
+          setPrevIntervalIndex(999);
         }, 10000);
 
         // Cleanup the timeout
