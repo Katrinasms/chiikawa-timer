@@ -209,19 +209,23 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
       }, [isEditable, totalTimeInSeconds]);
 
     useEffect(() => {
-      if (isEditable && totalTimeInSeconds === 0) {
-        setCurrentScenario('startBreak');
-        setShowPopup(true);
-  
-        const popupTimeout = setTimeout(() => {
-          setShowPopup(false);
-          setCurrentScenario('startWork'); // Reset scenario after pop-up hides
-          setPrevIntervalIndex(999);
-        }, 10000);
-
-        // Cleanup the timeout
-        return () => clearTimeout(popupTimeout);
+      if (isEditable){
+        setPrevIntervalIndex(999);
+        if ( totalTimeInSeconds === 0) {
+          setCurrentScenario('startBreak');
+          setShowPopup(true);
+    
+          const popupTimeout = setTimeout(() => {
+            setShowPopup(false);
+            setCurrentScenario('startWork'); // Reset scenario after pop-up hides
+            
+          }, 10000);
+    
+          // Cleanup the timeout
+          return () => clearTimeout(popupTimeout);
+        }
       }
+      
     }, [isEditable]);
 
     // Update progress and image position when elapsedTime changes
