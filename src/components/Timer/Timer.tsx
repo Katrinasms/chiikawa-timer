@@ -13,49 +13,6 @@ interface TimerProps {
   initialSeconds?: number;
 }
 
-const playSound = (audioPath: string, volume = 0.5) => {
-  const audio = new Audio(audioPath);
-  audio.volume = volume;
-  audio.play().catch(error => {
-    console.error('Error playing sound:', error);
-  });
-};
-
-const PopUpAnimate: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-      // Hide the overlay after 8 seconds
-      const timer = setTimeout(() => {
-          setIsVisible(false);
-      }, 5000);
-
-      // Cleanup the timer on component unmount
-      return () => clearTimeout(timer);
-  }, []);
-
-  if (!isVisible) return null; // Don't render anything if the overlay is hidden
-
-  return (
-      <div
-          style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Black with 0.5 opacity
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 1000, // Ensure it's on top
-          }}
-      >
-          <img src="/assets/chiikawa-usagi-animated.gif" alt="GIF" style={{ maxWidth: "100%", maxHeight: "100%" }} />
-      </div>
-  );
-};
-
 const Timer: React.FC<TimerProps> = ({
   initialHours = 0,
   initialMinutes = 0,
@@ -85,7 +42,7 @@ const Timer: React.FC<TimerProps> = ({
   const incrementMinuteTime = (): void => {
       setTimerState(prev => ({
           ...prev,
-          minutes: prev.minutes === 50? 0 : prev.minutes + 1,
+          minutes: prev.minutes === 50? 0 : prev.minutes + 10,
           hours: prev.minutes === 50 && prev.hours < 8 ? prev.hours + 1 : prev.hours
           }));
   };
@@ -125,7 +82,7 @@ const Timer: React.FC<TimerProps> = ({
               setIsEditable(true); 
               setIsPaused(false);
               setIsComplete(true);
-              playSound('/assets/music/start_work_chi.mp3')
+              // playSound('/assets/music/start_work_chi.mp3')
 
           }
           );
@@ -314,10 +271,10 @@ return (
           Start
         </button>
       )}
-         {
+         {/* {
            (isComplete)
            &&  <PopUpAnimate />
-         }
+         } */}
       <PomodoroBar  
           hours={timerState.hours}
           minutes={timerState.minutes}

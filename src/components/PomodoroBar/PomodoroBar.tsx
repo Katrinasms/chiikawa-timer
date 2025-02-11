@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {TimerState} from '../../types/index';
+import './PomodoroBar.module.scss';
+
 
 interface PomodoroBarProps extends TimerState {
     isEditable: boolean;
@@ -7,20 +9,14 @@ interface PomodoroBarProps extends TimerState {
 
 type IntervalChangeScenario = 'startWork' | 'startRest' | 'startBreak';
 
-const intervalChangeConfig: Record<IntervalChangeScenario, { gifSrc: string; soundSrc: string, videoSrc: string }> = {
+const intervalChangeConfig: Record<IntervalChangeScenario, { videoSrc: string }> = {
   startWork: {
-    gifSrc: '/assets/gif/group-jumping.webp',
-    soundSrc: '/assets/music/start_work_chi.mp3',
     videoSrc: '/assets/video/chiikawa_op.mp4',
   },
   startRest: {
-    gifSrc: '/assets/gif/group-sukiyaki.gif',
-    soundSrc: '/assets/music/usagi_happy_sounds.mp3',
     videoSrc: '/assets/video/sukiyaki.mp4',
   },
   startBreak: {
-    gifSrc: '/assets/start-rest.gif',
-    soundSrc: '/assets/sounds/start-rest.mp3',
     videoSrc: '/assets/video/usagi_pajama.mp4',
   },
 
@@ -34,15 +30,7 @@ interface IntervalChangePopupProps {
 const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => {
 
   const config = intervalChangeConfig[scenario];
-  const { gifSrc, soundSrc } = config;
-
-  // Play sound when component mounts
-  useEffect(() => {
-    const audio = new Audio(soundSrc);
-    audio.play().catch((error) => {
-      console.error('Error playing sound:', error);
-    });
-  }, [soundSrc]);
+  const { videoSrc } = config;
 
   const styles = {
     overlay: {
@@ -57,15 +45,43 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
       alignItems: 'center',
       zIndex: 9999,
     },
-    image: {
+    videoContainer:{
+      width: '80%',
+      maxHeight: '80%',
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      padding: '5px',
+      border: '3px solid black',
+      // overflow: 'hidden', // Ensure content doesn't overflow during animation
+      // transition: 'width 1s linear, backgroundColor 1s linear'
+      overflow: 'hidden',
+      animation: 'openTv 1s linear forwards',
+    },
+    video: {
       maxWidth: '100%',
       maxHeight: '100%',
     },
+    '@keyframes openTv': {
+    '0%': {
+      height: '0%',
+      transform: 'scaleY(0)',
+    },
+    '100%': {
+      height: '100%',
+      transform: 'scaleY(1)',
+    },
+  },
+    
   };
 
   return (
     <div style={styles.overlay}>
-      <img src={gifSrc} alt="Interval Change" style={styles.image} />
+      <div style={styles.videoContainer}>
+        <video autoPlay playsInline style={styles.video}>
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        </div>
     </div>
   );
 };
@@ -148,38 +164,10 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
       };
 
       const currentIntervalIndex = getCurrentIntervalIndex();
-
-      // Detect interval changes
-    useEffect(() => {
-      if (!isEditable) {
-        if (totalTimeInSeconds === 0) {
-          setShowPopup(false);
-          setPrevIntervalIndex(0);
-          return;
-        };
-        console.log('Current Interval Index:', currentIntervalIndex);
-        if (currentIntervalIndex !== prevIntervalIndex && currentIntervalIndex !== 0) {
-          // Interval has changed
-          setPrevIntervalIndex(currentIntervalIndex);
-
-          // Show the pop-up
-          setShowPopup(true);
-
-          // Hide the pop-up after 5 seconds
-          const popupTimeout = setTimeout(() => {
-            setShowPopup(false);
-          }, 500);
-
-          // Cleanup the timeout
-          return () => clearTimeout(popupTimeout);
-        }
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [currentIntervalIndex, isEditable]);
     
       useEffect(() => {
         if (!isEditable) {
-          if (currentIntervalIndex !== prevIntervalIndex) {
+            if (currentIntervalIndex !== prevIntervalIndex) {
             // Interval has changed
             setPrevIntervalIndex(currentIntervalIndex);
     
@@ -212,7 +200,6 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
             }
           }
         }}, [currentIntervalIndex, isEditable]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
@@ -221,12 +208,28 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
         }
       }, [isEditable, totalTimeInSeconds]);
 
+    useEffect(() => {
+      if (isEditable && totalTimeInSeconds === 0) {
+        setCurrentScenario('startBreak');
+        setShowPopup(true);
+  
+        const popupTimeout = setTimeout(() => {
+          setShowPopup(false);
+          setCurrentScenario('startWork'); // Reset scenario after pop-up hides
+        }, 10000);
+
+        // Cleanup the timeout
+        return () => clearTimeout(popupTimeout);
+      }
+    }, [isEditable]);
+
     // Update progress and image position when elapsedTime changes
     useEffect(() => {
         const progress = (totalTimeInSeconds/initialTimeinSecond) * 100;
         const clampedProgress = Math.min(Math.max(progress, 0), 100);
         setImagePosition(clampedProgress);
     }, [totalTimeInSeconds, initialTimeinSecond]);
+
 
   // Styles
     const styles = {
@@ -285,6 +288,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
        {showPopup && <IntervalChangePopup scenario={currentScenario} />}
        {/* <IntervalChangePopup scenario={currentScenario} /> */}
         <div style={styles.barContainer}>
+          
           {/* Render the bars */}
           <div style={styles.barsWrapper}>
             {bars.map((bar, index) => {
@@ -302,7 +306,6 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
               />
         </div>
         <p>{intervalTypes[currentIntervalIndex]}</p>
-        {/* <p>{}</p> */}
         </>
       );
 }
