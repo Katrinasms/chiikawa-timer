@@ -42,7 +42,7 @@ const Timer: React.FC<TimerProps> = ({
   const incrementMinuteTime = (): void => {
       setTimerState(prev => ({
           ...prev,
-          minutes: prev.minutes === 50? 0 : prev.minutes + 10,
+          minutes: prev.minutes === 50? 0 : prev.minutes + 1,
           hours: prev.minutes === 50 && prev.hours < 8 ? prev.hours + 1 : prev.hours
           }));
   };
@@ -165,7 +165,7 @@ const Timer: React.FC<TimerProps> = ({
               .padStart(2, '0')}`;
   
       // Set the document title
-      document.title = `  [${formattedTime}] Chiikawa Timer`;
+      // document.title = `  [${formattedTime}] Chiikawa Timer`;
     } else {
       // Reset to default title when not running
       document.title = 'Chiikawa Timer'; // Replace with your app's default title

@@ -32,6 +32,18 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
   const config = intervalChangeConfig[scenario];
   const { videoSrc } = config;
 
+  useEffect(() => {
+    const videoElement = document.createElement('video');
+    videoElement.src = videoSrc;
+    videoElement.preload = 'auto'; // Preload the video
+    videoElement.style.display = 'none'; // Hide the preload element
+    document.body.appendChild(videoElement);
+
+    return () => {
+      document.body.removeChild(videoElement); // Clean up on unmount
+    };
+  }, [videoSrc]);
+
   const styles = {
     overlay: {
       position: 'fixed' as const,
@@ -46,7 +58,7 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
       zIndex: 9999,
     },
     videoContainer:{
-      width: '80%',
+      maxwidth: '80%',
       maxHeight: '80%',
       backgroundColor: 'white',
       borderRadius: '10px',
@@ -54,6 +66,9 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
       border: '3px solid black',
       // overflow: 'hidden', // Ensure content doesn't overflow during animation
       // transition: 'width 1s linear, backgroundColor 1s linear'
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       overflow: 'hidden',
       animation: 'openTv 1s linear forwards',
     },
@@ -67,7 +82,7 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
       transform: 'scaleY(0)',
     },
     '100%': {
-      height: '100%',
+      maxheight: '100%',
       transform: 'scaleY(1)',
     },
   },
@@ -77,11 +92,25 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
   return (
     <div style={styles.overlay}>
       <div style={styles.videoContainer}>
-        <video autoPlay playsInline style={styles.video}>
+        <video autoPlay playsInline style={styles.video} preload="auto">
           <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         </div>
+        <style>
+        {`
+          @keyframes openTv {
+            0% {
+              height: 0%;
+              transform: scaleY(0);
+            }
+            100% {
+              maxheight: 100%;
+              transform: scaleY(1);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
@@ -98,15 +127,15 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [initialTimeinSecond, setInitialTimeinSecond] = useState(totalTimeInSeconds);
     const [imagePosition, setImagePosition] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(0);
+    const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(999);
 
     const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
 
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
   
-    const workInterval = 25; // minutes
-    const restInterval = 5;  // minutes
+    const workInterval = 0.2; // minutes
+    const restInterval = 0.2;  // minutes
     const cycleDuration = workInterval + restInterval; // minutes
 
     // Calculate total number of full cycles
@@ -163,6 +192,21 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
         return intervalChangeTimes.length - 1; // In case elapsed time exceeds total time
       };
 
+      const getCurrentIntervalRemainingMinuteSecond = () => {
+        // Calculate the end time of the current interval
+        let currentIndex = getCurrentIntervalIndex();
+        let intervalEndTime = intervalChangeTimes[currentIndex];
+
+        // Calculate the remaining time in seconds for the current interval
+        let remainingTimeInSeconds = intervalEndTime - elapsedTimeInSeconds;
+
+        // Convert remaining time to minutes and seconds
+        const remainingMinutes = Math.floor(remainingTimeInSeconds / 60);
+        const remainingSeconds = remainingTimeInSeconds % 60;
+
+        return { remainingMinutes, remainingSeconds };
+      };
+
       const currentIntervalIndex = getCurrentIntervalIndex();
     
       useEffect(() => {
@@ -205,12 +249,21 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     useEffect(() => {
         if (isEditable) {
           setInitialTimeinSecond(totalTimeInSeconds);
+        }else {
+          // Update the document title with the current interval type within square brackets time
+          const { remainingMinutes, remainingSeconds }  = getCurrentIntervalRemainingMinuteSecond();
+          document.title = `[${remainingMinutes}:${remainingSeconds}][${capitalizeFirstWord(intervalTypes[currentIntervalIndex])}] Chiikawa Timer`;
         }
+       
       }, [isEditable, totalTimeInSeconds]);
+
+    const capitalizeFirstWord = (str:string) => {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    };
 
     useEffect(() => {
       if (isEditable){
-        setPrevIntervalIndex(0);
+        setPrevIntervalIndex(999);
         if ( totalTimeInSeconds === 0) {
           setCurrentScenario('startBreak');
           setShowPopup(true);
