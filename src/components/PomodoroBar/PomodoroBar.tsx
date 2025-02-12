@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {TimerState} from '../../types/index';
 // import './PomodoroBar.module.scss';
-
+import { CharacterContext } from '../../services/CharacterContext';
 
 interface PomodoroBarProps extends TimerState {
     isEditable: boolean;
@@ -130,6 +130,8 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [prevIntervalIndex, setPrevIntervalIndex] = useState<number>(999);
 
     const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
+
+    const { state } = useContext(CharacterContext);
 
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
@@ -320,7 +322,8 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
           left: '0',
           height: '10px',
           width: `${100 - imagePosition}%`,
-          backgroundColor: '#FFF1CB9A', // Gray with 50% opacity rgba(253, 199, 206, 0.5)
+          // backgroundColor: '#FFF1CB9A',
+          backgroundColor:`${state.selectedCharacter.color}4A`,
           borderRadius: '5px',
           pointerEvents: 'none', // Allow clicks to pass through
           transition: 'width 1s linear',
@@ -358,12 +361,12 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
             <div style={styles.overlayBar(imagePosition)}></div>
           </div>
               <img
-                src="/assets/YahaUsagi.webp"
+                src={state.selectedCharacter.imgSrc}
                 alt="Moving"
                 style={styles.movingImage}
               />
         </div>
-        <p>{intervalTypes[currentIntervalIndex]}</p>
+        {/* <p>{intervalTypes[currentIntervalIndex]}</p> */}
         </>
       );
 }
