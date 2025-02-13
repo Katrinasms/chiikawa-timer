@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, ReactNode, Dispatch } from 'react';
+import { createContext, useReducer, ReactNode, Dispatch } from 'react';
 
 type Character = {
     name: string;

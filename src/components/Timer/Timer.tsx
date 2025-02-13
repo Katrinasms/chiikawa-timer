@@ -144,33 +144,10 @@ const Timer: React.FC<TimerProps> = ({
   }, [isEditable, timerState.hours, timerState.minutes, timerState.seconds]);
 
   useEffect(() => {
-    if (!isEditable) {
-      // Calculate remaining time in seconds
-      const totalTimeInSeconds =
-        timerState.hours * 3600 + timerState.minutes * 60 + timerState.seconds;
-  
-      // Calculate remaining hours, minutes, and seconds
-      const remainingHours = Math.floor(totalTimeInSeconds / 3600);
-      const remainingMinutes = Math.floor((totalTimeInSeconds % 3600) / 60);
-      const remainingSeconds = totalTimeInSeconds % 60;
-  
-      // Format the time as HH:MM:SS or MM:SS if hours are 0
-      const formattedTime =
-        remainingHours > 0
-          ? `${remainingHours.toString().padStart(2, '0')}:${remainingMinutes
-              .toString()
-              .padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
-          : `${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds
-              .toString()
-              .padStart(2, '0')}`;
-  
-      // Set the document title
-      // document.title = `  [${formattedTime}] Chiikawa Timer`;
-    } else {
-      // Reset to default title when not running
-      document.title = 'Chiikawa Timer'; // Replace with your app's default title
+    if (isEditable) {
+      document.title = 'Chiikawa Timer'; 
     }
-  }, [isEditable, timerState.hours, timerState.minutes, timerState.seconds]);
+  }, [isEditable]);
   
 
 useEffect(() => {

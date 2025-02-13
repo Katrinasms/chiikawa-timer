@@ -25,24 +25,31 @@ const intervalChangeConfig: Record<IntervalChangeScenario, { videoSrc: string }>
 
 interface IntervalChangePopupProps {
   scenario: IntervalChangeScenario;
+  showPopup: boolean;
 }
 
-const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => {
+const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showPopup }) => {
 
   const config = intervalChangeConfig[scenario];
   const { videoSrc } = config;
 
   useEffect(() => {
-    const videoElement = document.createElement('video');
-    videoElement.src = videoSrc;
-    videoElement.preload = 'auto'; // Preload the video
-    videoElement.style.display = 'none'; // Hide the preload element
-    document.body.appendChild(videoElement);
+    // const videoElement = document.createElement('video');
+    // videoElement.src = videoSrc;
+    // videoElement.preload = 'auto'; // Preload the video
+    // videoElement.style.display = 'none'; // Hide the preload element
+    // document.body.appendChild(videoElement);
 
-    return () => {
-      document.body.removeChild(videoElement); // Clean up on unmount
-    };
-  }, [videoSrc]);
+    // return () => {
+    //   document.body.removeChild(videoElement); // Clean up on unmount
+    // };
+    if (showPopup) {
+      const videoElement = document.getElementById('popup-video') as HTMLVideoElement;
+      if (videoElement) {
+        videoElement.play();
+      }
+    }
+  }, [showPopup,videoSrc]);
 
   const styles = {
     overlay: {
@@ -65,12 +72,12 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
       padding: '5px',
       border: '3px solid black',
       // overflow: 'hidden', // Ensure content doesn't overflow during animation
-      // transition: 'width 1s linear, backgroundColor 1s linear'
+      transition: 'width 1s linear, backgroundColor 1s linear',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      overflow: 'hidden',
-      animation: 'openTv 1s linear forwards',
+      // overflow: 'hidden',
+      // animation: 'openTv 1s linear forwards',
     },
     video: {
       maxWidth: '100%',
@@ -92,12 +99,12 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
   return (
     <div style={styles.overlay}>
       <div style={styles.videoContainer}>
-        <video autoPlay playsInline style={styles.video} preload="auto">
+        <video id="popup-video" autoPlay playsInline style={styles.video} preload="auto">
           <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         </div>
-        <style>
+        {/* <style>
         {`
           @keyframes openTv {
             0% {
@@ -110,7 +117,7 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario }) => 
             }
           }
         `}
-      </style>
+      </style> */}
     </div>
   );
 };
@@ -346,7 +353,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
 
     return (
       <>
-       {showPopup && <IntervalChangePopup scenario={currentScenario} />}
+       {showPopup && <IntervalChangePopup scenario={currentScenario} showPopup={showPopup}/>}
        {/* <IntervalChangePopup scenario={currentScenario} /> */}
         <div style={styles.barContainer}>
           
