@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import {TimerState} from '../../types/index';
 // import './PomodoroBar.module.scss';
 import { CharacterContext } from '../../services/CharacterContext';
+import { MessageContext } from  '../../services/MessageContext';
 
 interface PomodoroBarProps extends TimerState {
     isEditable: boolean;
@@ -139,6 +140,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     const [currentScenario, setCurrentScenario] = useState<IntervalChangeScenario>('startRest');
 
     const { state } = useContext(CharacterContext);
+    const { dispatch } = useContext(MessageContext);
 
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
@@ -229,11 +231,14 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
             const currentIntervalType = intervalTypes[currentIntervalIndex];
     
             let scenario: IntervalChangeScenario = 'startWork';
+            dispatch({ type: 'WORK_STAGE' });
     
             if (previousIntervalType === 'rest' && currentIntervalType === 'work') {
               scenario = 'startWork';
+              dispatch({ type: 'WORK_STAGE' });
             } else if (previousIntervalType === 'work' && currentIntervalType === 'rest') {
               scenario = 'startRest';
+              dispatch({ type: 'REST_STAGE' });
             }
     
             if (scenario) {
@@ -275,6 +280,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
         setPrevIntervalIndex(999);
         if ( totalTimeInSeconds === 0) {
           setCurrentScenario('startBreak');
+          dispatch({ type: 'BEFORE_TIMER_START' });
           setShowPopup(true);
     
           const popupTimeout = setTimeout(() => {
