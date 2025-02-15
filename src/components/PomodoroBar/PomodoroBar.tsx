@@ -10,14 +10,20 @@ interface PomodoroBarProps extends TimerState {
 
 type IntervalChangeScenario = 'startWork' | 'startRest' | 'startBreak';
 
-const intervalChangeConfig: Record<IntervalChangeScenario, { videoSrc: string }> = {
+const intervalChangeConfig: Record<IntervalChangeScenario, {gifSrc: string; soundSrc: string, videoSrc: string }> = {
   startWork: {
+    gifSrc: '/assets/gif/chiikawa_op.gif',
+    soundSrc: '/assets/music/chiikawa_op.mp3',
     videoSrc: '/assets/video/chiikawa_op.mp4',
   },
   startRest: {
+    gifSrc: '/assets/gif/sukiyaki.gif',
+    soundSrc: '/assets/music/sukiyaki.mp3',
     videoSrc: '/assets/video/sukiyaki.mp4',
   },
   startBreak: {
+    gifSrc: '/assets/gif/usagi_pajama.gif',
+    soundSrc: '/assets/music/usagi_pajama.mp3',
     videoSrc: '/assets/video/usagi_pajama.mp4',
   },
 
@@ -29,28 +35,29 @@ interface IntervalChangePopupProps {
   showPopup: boolean;
 }
 
-const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showPopup }) => {
+const playSound = (audioPath: string, volume = 0.5) => {
+  const audio = new Audio(audioPath);
+  audio.volume = volume;
+  audio.play().catch(error => {
+    console.error('Error playing sound:', error);
+  });
+};
+
+const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showPopup  }) => {
 
   const config = intervalChangeConfig[scenario];
-  const { videoSrc } = config;
+  const { gifSrc,soundSrc } = config;
 
   useEffect(() => {
-    // const videoElement = document.createElement('video');
-    // videoElement.src = videoSrc;
-    // videoElement.preload = 'auto'; // Preload the video
-    // videoElement.style.display = 'none'; // Hide the preload element
-    // document.body.appendChild(videoElement);
-
-    // return () => {
-    //   document.body.removeChild(videoElement); // Clean up on unmount
-    // };
     if (showPopup) {
-      const videoElement = document.getElementById('popup-video') as HTMLVideoElement;
-      if (videoElement) {
-        videoElement.play();
-      }
+      playSound(soundSrc);
     }
-  }, [showPopup,videoSrc]);
+  }, [showPopup,soundSrc]);
+  // useEffect(() => {
+  //   const audio = new Audio(soundSrc);
+  //   audio.play().catch((error) => {
+  //   });
+  // }, [soundSrc]);
 
   const styles = {
     overlay: {
@@ -72,7 +79,6 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showP
       borderRadius: '10px',
       padding: '5px',
       border: '3px solid black',
-      // overflow: 'hidden', // Ensure content doesn't overflow during animation
       transition: 'width 1s linear, backgroundColor 1s linear',
       display: 'flex',
       justifyContent: 'center',
@@ -81,6 +87,10 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showP
       // animation: 'openTv 1s linear forwards',
     },
     video: {
+      maxWidth: '100%',
+      maxHeight: '100%',
+    },
+    image: {
       maxWidth: '100%',
       maxHeight: '100%',
     },
@@ -99,12 +109,14 @@ const IntervalChangePopup:React.FC<IntervalChangePopupProps>= ({ scenario, showP
 
   return (
     <div style={styles.overlay}>
-      <div style={styles.videoContainer}>
-        <video id="popup-video" autoPlay playsInline style={styles.video} preload="auto">
+      {/* <div style={styles.videoContainer}> */}
+        {/* <video id="popup-video" autoPlay playsInline style={styles.video} preload="auto">
           <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
-        </video>
-        </div>
+        </video> */}
+        {/* <img src="/assets/chiikawa-usagi-animated.gif" alt="GIF" style={{ maxWidth: "100%", maxHeight: "100%" }} /> */}
+        <img src={gifSrc} alt="Interval Change" style={styles.image} />
+        {/* </div> */}
         {/* <style>
         {`
           @keyframes openTv {
@@ -145,8 +157,8 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
   
-    const workInterval = 0.2; // minutes
-    const restInterval = 0.2;  // minutes
+    const workInterval = 25; // minutes
+    const restInterval = 5;  // minutes
     const cycleDuration = workInterval + restInterval; // minutes
 
     // Calculate total number of full cycles
