@@ -1,7 +1,7 @@
 .messageBox {
     background-color: #7fb3d5;
     padding: 15px;
-    width: 90%;
+    width: 50%;
     text-align: center;
     border: 4px solid  #462725;
     border-radius: 10px;
@@ -14,8 +14,43 @@
 
 .messageBoxRow {
     display:flex;
-    justify-content: center;
+    // justify-content: center;
     // align-items: flex-start;
     margin-top: 10px;
     max-width: 100%;
+}
+
+.hachiwa {
+    justify-content: flex-start;
+    // align-items: flex-start;
+    // background-color: #7fb3d5;
+}
+  
+.chiikawa {
+    justify-content: center;
+    // align-items: center;
+    // background-color: #ffffff
+}
+
+.usagi {
+    justify-content: flex-end;
+    // background-color: #ffff00;
+}
+
+.hachiwa .messageBox {
+    background-color: #7fb3d5;
+    border: 4px solid  #462725;
+    border-radius: 10px;
+}
+
+.chiikawa .messageBox {
+    background-color: #ffffff;
+    border: 4px solid  #462725;
+    border-radius: 10px;
+}
+
+.usagi .messageBox {
+    background-color: #fff5e6;
+    border: 4px solid  #462725;
+    border-radius: 10px;
 }

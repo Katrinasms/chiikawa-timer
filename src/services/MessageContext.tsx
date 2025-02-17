@@ -2,7 +2,7 @@ import { createContext, useReducer, ReactNode, Dispatch } from 'react';
 
 type Message = {
   text: string;
-  position: string;
+  class: string;
   color: string;
 };
 
@@ -18,11 +18,11 @@ type MessageAction =
   | { type: 'NEXT_WORK_MESSAGE' };
 
 const initialState: MessageState = {
-  message: { text: 'Please Select the time you want to focus?', position: 'top', color: 'white' },
+  message: { text: 'Please Select the time you want to focus?', class: 'chiikawa', color: 'white' },
   workMessages: [
-    { text: "Let's work hard together!", position: 'top', color: '#7fb3d5' },
-    { text: "Focus made us not regret", position: 'center', color: 'green' },
-    { text: "Keep going, you're doing great!", position: 'bottom', color: 'green' },
+    { text: "Let's work hard together!", class: 'hachiwa', color: '#7fb3d5' },
+    { text: "Focus made us not regret", class: 'usagi', color: 'green' },
+    { text: "Keep going, you're doing great!", class: 'chiikawa', color: 'green' },
   ],
 };
 
@@ -38,7 +38,7 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
         ...state,
         message: {
           text: "Welcome to Chiikawa Time! This timer helps you boost your focus by counting 25 minutes for work/study/focus and then 5 minutes for rest. Hope we can work hard and love Chiikawa harder with this timer.",
-          position: 'top',
+          class: 'chiikawa',
           color: '#7fb3d5',
         },
       };
@@ -50,7 +50,7 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
     case 'REST_STAGE':
       return {
         ...state,
-        message: { text: "Yaha, let's rest!", position: 'bottom', color: 'red' },
+        message: { text: "Yaha, let's rest!", class: 'usagi', color: 'red' },
       };
     case 'NEXT_WORK_MESSAGE':
       return {

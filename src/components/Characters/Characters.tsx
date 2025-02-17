@@ -15,9 +15,6 @@ function Characters() {
     dispatch({ type: 'SELECT_CHARACTER', payload: character });
   };
 
-
-
-
 return (
   <Container maxWidth="lg">
     <Box
