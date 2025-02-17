@@ -157,8 +157,8 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
     // Calculate elapsed time
     const elapsedTimeInSeconds = initialTimeinSecond - totalTimeInSeconds;
   
-    const workInterval = 0.2; // minutes
-    const restInterval = 0.2;  // minutes
+    const workInterval = 25; // minutes
+    const restInterval = 5;  // minutes
     const cycleDuration = workInterval + restInterval; // minutes
 
     // Calculate total number of full cycles

@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Clock from '../Clock/Clock';
 import PomodoroBar from '../PomodoroBar/PomodoroBar';
+import { useTranslation } from 'react-i18next'
 
 interface TimerProps {
   initialHours?: number;
@@ -66,6 +67,8 @@ const Timer: React.FC<TimerProps> = ({
   // const [isComplete, setIsComplete] = useState<boolean>(false); 
 
   const timerServiceRef = useRef<TimerService | null>(null);
+
+  const { t } = useTranslation();
 
   const incrementHourTime = (): void => {    
       setTimerState(prev => ({
@@ -280,7 +283,7 @@ return (
           onClick={startTimer}
           disabled={!isEditable}
         >
-          Start
+          {t('start')}
         </button>
       )}
          {/* {
