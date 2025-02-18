@@ -7,9 +7,6 @@ import styles from './LanguageSwitcher.module.scss';
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
 
-//   const changeLanguage = (lng: string) => {
-//     i18n.changeLanguage(lng);
-//   };
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
@@ -22,6 +19,7 @@ const LanguageSwitcher: React.FC = () => {
         <option value="en" className={styles.option}>English</option>
         <option value="zh" className={styles.option}>中文</option>
         <option value="ja" className={styles.option}>日本語</option>
+        <option value="si" className={styles.option}>සිංහල</option>
       </select>
       {/* </div>  */}
     </div>

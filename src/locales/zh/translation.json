@@ -1,7 +1,11 @@
 {
-    "start": "開始",
-    "stop": "停止",
-    "reset": "重置",
-    "message": "是時候專注了！"
-  }
-  
+  "pause": "暫停",
+  "reset": "重置",
+  "resume": "繼續",
+  "start": "開始",
+  "select_time": "請選專注時間。",
+  "work_hard": "一起努力！",
+  "focus_no_regret": "專注不後悔。",
+  "keep_going": "繼續加油，你很棒！",
+  "welcome": "歡迎使用Chiikawa計時器！這個計時器幫助你專注，每25分鐘工作/學習，然後5分鐘休息。"
+}

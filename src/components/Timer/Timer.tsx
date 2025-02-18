@@ -253,13 +253,13 @@ return (
             className={styles.pauseButton}
             onClick={pauseTimer}
           >
-            Pause
+            {t('pause')}
           </button>
           <button
             className={styles.resetButton}
             onClick={resetTimer}
           >
-            Reset
+             {t('reset')}
           </button>
         </div>
       ) : isPaused ? (
@@ -268,13 +268,13 @@ return (
             className={styles.resumeButton}
             onClick={resumeTimer}
           >
-            Resume
+            {t('resume')}
           </button>
           <button
             className={styles.resetButton}
             onClick={resetTimer}
           >
-            Reset
+            {t('reset')}
           </button>
         </div>
       ) : (

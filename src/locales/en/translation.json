@@ -1,7 +1,11 @@
 {
-    "start": "Start",
-    "stop": "Stop",
-    "reset": "Reset",
-    "message": "Time to focus!"
-  }
-  
+  "pause": "Pause",
+  "reset": "Reset",
+  "resume": "Resume",
+  "start": "Start",
+  "select_time": "Select focus time.",
+  "work_hard": "Work hard together!",
+  "focus_no_regret": "Focus prevents regret.",
+  "keep_going": "Keep going, you're great!",
+  "welcome": "Welcome to Chiikawa Time! This timer helps you focus with 25 minutes of work/study and 5 minutes of rest."
+}

@@ -1,4 +1,5 @@
 import { createContext, useReducer, ReactNode, Dispatch } from 'react';
+// import { useTranslation } from 'react-i18next'
 
 type Message = {
   text: string;
@@ -18,11 +19,11 @@ type MessageAction =
   | { type: 'NEXT_WORK_MESSAGE' };
 
 const initialState: MessageState = {
-  message: { text: 'Please Select the time you want to focus?', class: 'chiikawa', color: 'white' },
+  message: { text: "welcome" , class: 'chiikawa', color: 'white' },
   workMessages: [
-    { text: "Let's work hard together!", class: 'hachiwa', color: '#7fb3d5' },
-    { text: "Focus made us not regret", class: 'usagi', color: 'green' },
-    { text: "Keep going, you're doing great!", class: 'chiikawa', color: 'green' },
+    { text: "work_hard", class: 'hachiwa', color: '#7fb3d5' },
+    { text: "focus_no_regret", class: 'usagi', color: 'green' },
+    { text: "keep_going", class: 'chiikawa', color: 'green' },
   ],
 };
 
@@ -37,7 +38,7 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
       return {
         ...state,
         message: {
-          text: "Welcome to Chiikawa Time! This timer helps you boost your focus by counting 25 minutes for work/study/focus and then 5 minutes for rest. Hope we can work hard and love Chiikawa harder with this timer.",
+          text: "welcome",
           class: 'chiikawa',
           color: '#7fb3d5',
         },
@@ -55,7 +56,8 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
     case 'NEXT_WORK_MESSAGE':
       return {
         ...state,
-        message: { ...state.workMessages[Math.floor(Math.random() * state.workMessages.length)] },
+        message: { ...state.workMessages[Math.floor(Math.random() * state.workMessages.length)]
+         },
       };
     default:
       return state;
