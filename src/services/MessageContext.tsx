@@ -10,13 +10,18 @@ type Message = {
 type MessageState = {
   message: Message;
   workMessages: Message[];
+  chiikawaMessages: Message[];
+  hachiwaMessages: Message[];
+  usagiMessages: Message[];
 };
 
 type MessageAction = 
   | { type: 'BEFORE_TIMER_START' }
   | { type: 'WORK_STAGE' }
   | { type: 'REST_STAGE' }
-  | { type: 'NEXT_WORK_MESSAGE' };
+  | { type: 'NEXT_WORK_MESSAGE' }
+  | { type: 'CLICK_CHARACTER'; character: 'chiikawa' | 'hachiwa' | 'usagi' };
+
 
 const initialState: MessageState = {
   message: { text: "welcome" , class: 'chiikawa', color: 'white' },
@@ -25,6 +30,18 @@ const initialState: MessageState = {
     { text: "focus_no_regret", class: 'usagi', color: 'green' },
     { text: "keep_going", class: 'chiikawa', color: 'green' },
   ],
+  chiikawaMessages: [
+    { text: "star", class: 'chiikawa', color: 'blue' },
+    { text: "shine", class: 'chiikawa', color: 'yellow' },
+  ],
+  hachiwaMessages: [
+    { text: "amazing", class: 'hachiwa', color: 'purple' },
+    { text: "awesome", class: 'hachiwa', color: 'pink' },
+  ],
+  usagiMessages: [
+    { text: "fantastic", class: 'usagi', color: 'red' },
+    { text: "rocking", class: 'usagi', color: 'orange' },
+  ]
 };
 
 const MessageContext = createContext<{ state: MessageState; dispatch: Dispatch<MessageAction> }>({
@@ -56,8 +73,26 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
     case 'NEXT_WORK_MESSAGE':
       return {
         ...state,
-        message: { ...state.workMessages[Math.floor(Math.random() * state.workMessages.length)]
-         },
+        message: { ...state.workMessages[Math.floor(Math.random() * state.workMessages.length)]},
+      };
+    case 'CLICK_CHARACTER':
+      let characterMessages:Message[];
+      switch (action.character) {
+        case 'chiikawa':
+          characterMessages = state.chiikawaMessages;
+          break;
+        case 'hachiwa':
+          characterMessages = state.hachiwaMessages;
+          break;
+        case 'usagi':
+          characterMessages = state.usagiMessages;
+          break;
+        default:
+          characterMessages = [];
+      }
+      return {
+        ...state,
+        message: { ...characterMessages[Math.floor(Math.random() * characterMessages.length)]},
       };
     default:
       return state;
