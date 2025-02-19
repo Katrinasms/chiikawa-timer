@@ -16,10 +16,10 @@ const LanguageSwitcher: React.FC = () => {
     <div className={`${styles.topBar}`}>
        {/* <div className={styles.selectWrapper}> */}
       <select onChange={handleChange} value={i18n.language} className={`${styles.select}`}>
-        <option value="en" className={styles.option}>English</option>
-        <option value="zh" className={styles.option}>中文</option>
         <option value="ja" className={styles.option}>日本語</option>
-        <option value="si" className={styles.option}>සිංහල</option>
+        <option value="zh" className={styles.option}>中文</option>
+        <option value="en" className={styles.option}>English</option>
+        {/* <option value="si" className={styles.option}>සිංහල</option> */}
       </select>
       {/* </div>  */}
     </div>

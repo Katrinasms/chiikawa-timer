@@ -24,23 +24,27 @@ type MessageAction =
 
 
 const initialState: MessageState = {
-  message: { text: "welcome" , class: 'chiikawa', color: 'white' },
+  message: { text: "welcome" , class: 'all', color: 'white' },
   workMessages: [
-    { text: "work_hard", class: 'hachiwa', color: '#7fb3d5' },
-    { text: "focus_no_regret", class: 'usagi', color: 'green' },
-    { text: "keep_going", class: 'chiikawa', color: 'green' },
+    { text: "chiikawa_1", class: 'chiikawa', color: 'blue' },
+    { text: "hachiwa_2", class: 'hachiwa', color: 'pink' },
+    { text: "usagi_2", class: 'usagi', color: 'orange' },
   ],
   chiikawaMessages: [
-    { text: "star", class: 'chiikawa', color: 'blue' },
-    { text: "shine", class: 'chiikawa', color: 'yellow' },
+    { text: "chiikawa_1", class: 'chiikawa', color: 'blue' },
+    { text: "chiikawa_2", class: 'chiikawa', color: 'yellow' },
+    { text: "chiikawa_3", class: 'chiikawa', color: 'blue' },
   ],
   hachiwaMessages: [
-    { text: "amazing", class: 'hachiwa', color: 'purple' },
-    { text: "awesome", class: 'hachiwa', color: 'pink' },
+    { text: "hachiwa_1", class: 'hachiwa', color: 'purple' },
+    { text: "hachiwa_2", class: 'hachiwa', color: 'pink' },
+    { text: "hachiwa_3", class: 'hachiwa', color: 'pink' },
   ],
   usagiMessages: [
-    { text: "fantastic", class: 'usagi', color: 'red' },
-    { text: "rocking", class: 'usagi', color: 'orange' },
+    { text: "usagi_1", class: 'usagi', color: 'red' },
+    { text: "usagi_2", class: 'usagi', color: 'orange' },
+    { text: "usagi_3", class: 'usagi', color: 'red' },
+    { text: "usagi_4", class: 'usagi', color: 'orange' },
   ]
 };
 
@@ -68,7 +72,7 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
     case 'REST_STAGE':
       return {
         ...state,
-        message: { text: "Yaha, let's rest!", class: 'usagi', color: 'red' },
+        message: { text: "usagi_1", class: 'usagi', color: 'red' },
       };
     case 'NEXT_WORK_MESSAGE':
       return {
