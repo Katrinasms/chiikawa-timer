@@ -12,7 +12,6 @@ function App() {
     <CharacterProvider>
       <MessageProvider>
       <LanguageSwitcher />
-        {/* <p style={{textAlign:'center', color:'red', fontWeight:'bold'}}>STILL UNDER CONSTRUCTION</p> */}
         <MessagesBox />
         <Characters />
         <Timer /> 

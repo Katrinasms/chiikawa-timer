@@ -8,6 +8,7 @@ function MessagesBox () {
   const { state } = useContext(MessageContext);
   const { t } = useTranslation();
 return (
+  <div style={{display: 'flex', marginTop:'50px'}}>
       <Container maxWidth="lg">
       <Box
         sx={{
@@ -23,6 +24,7 @@ return (
         </div>
       </Box>
     </Container>
+    </div>
 )}
 
 export default  MessagesBox;
