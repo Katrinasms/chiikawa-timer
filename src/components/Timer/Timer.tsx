@@ -247,7 +247,17 @@ return (
         </div>
     </div>
         <Clock seconds={timerState.seconds}/>
-       {timerState.isRunning ? (
+
+
+      <PomodoroBar  
+          hours={timerState.hours}
+          minutes={timerState.minutes}
+          seconds={timerState.seconds}
+          isRunning={timerState.isRunning}
+          isEditable={isEditable}
+      />
+
+{timerState.isRunning ? (
         <div className={styles.controlButtons}>
           <button
             className={styles.pauseButton}
@@ -286,17 +296,6 @@ return (
           {t('start')}
         </button>
       )}
-         {/* {
-           (isComplete)
-           &&  <PopUpAnimate />
-         } */}
-      <PomodoroBar  
-          hours={timerState.hours}
-          minutes={timerState.minutes}
-          seconds={timerState.seconds}
-          isRunning={timerState.isRunning}
-          isEditable={isEditable}
-      />
 </div>
 );
 };

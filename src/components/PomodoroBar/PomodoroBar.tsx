@@ -324,7 +324,7 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
           position: 'relative' as 'relative',
           width: '100%',
           height: '40px',
-          marginTop: '20px',
+          marginTop: '0px',
         } as React.CSSProperties,
         barsWrapper: {
           position: 'relative',
