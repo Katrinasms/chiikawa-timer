@@ -3,7 +3,8 @@ export class TimerService {
     private timerId: NodeJS.Timeout | null = null;
     private callback: ((hours:number, minutes: number, seconds: number) => void) | null = null;
     private onComplete: (() => void) | null = null;
-  
+
+    
     constructor(
       private hours: number,
       private minutes: number,

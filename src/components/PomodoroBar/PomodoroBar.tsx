@@ -278,7 +278,9 @@ const PomodoroBar: React.FC<PomodoroBarProps> = ({
         }else {
           // Update the document title with the current interval type within square brackets time
           const { remainingMinutes, remainingSeconds }  = getCurrentIntervalRemainingMinuteSecond();
-          document.title = `[${remainingMinutes}:${remainingSeconds}][${capitalizeFirstWord(intervalTypes[currentIntervalIndex])}] Chiikawa Timer`;
+          const remainingMinutes_M = String(remainingMinutes).padStart(2, '0');
+          const remainingSeconds_M = String(remainingSeconds).padStart(2, '0');
+          document.title = `[${remainingMinutes_M}:${remainingSeconds_M}][${capitalizeFirstWord(intervalTypes[currentIntervalIndex])}] Chiikawa Timer`;
         }
        
       }, [isEditable, totalTimeInSeconds]);
