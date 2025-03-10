@@ -16,8 +16,8 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({
   initialHours = 0,
-  initialMinutes = 0,
-  initialSeconds = 10
+  initialMinutes = 30,
+  initialSeconds = 0
 }) => {
 
   const [timerState, setTimerState] = useState<TimerState>({

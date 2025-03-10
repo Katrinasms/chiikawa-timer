@@ -30,8 +30,8 @@ i18n
   // Initialize with configuration
   .init({
     resources,
-    lng: 'ja', // Default language
-    fallbackLng: 'ja',
+    lng: 'en', // Default language
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // React already escapes values
     },

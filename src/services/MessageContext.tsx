@@ -22,7 +22,6 @@ type MessageAction =
   | { type: 'NEXT_WORK_MESSAGE' }
   | { type: 'CLICK_CHARACTER'; character: 'chiikawa' | 'hachiwa' | 'usagi' };
 
-
 const initialState: MessageState = {
   message: { text: "welcome" , class: 'all', color: 'white' },
   workMessages: [
@@ -60,7 +59,7 @@ const messageReducer = (state: MessageState, action: MessageAction): MessageStat
         ...state,
         message: {
           text: "welcome",
-          class: 'chiikawa',
+          class: 'all',
           color: '#7fb3d5',
         },
       };
