@@ -5,7 +5,7 @@
 
 [chiikawatimer.com](https://www.chiikawatimer.com)
 
-![chiikawatimer screenshot](screenshot/chiikawa-timer-screenshot.png){style="height:200px;"}
+<img src="screenshot/chiikawa-timer-screenshot.png" alt="hiikawatimer screenshot" height="300">
 
 ## Description
 Chiikawa Timer is a fun, **non-commercial** focus clock application designed to boost productivity using the Pomodoro technique. Featuring the adorable Chiikawa character, created by the Japanese author Nagano, this timer adds a touch of charm to your work sessions with delightful animations.
